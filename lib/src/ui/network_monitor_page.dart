@@ -53,9 +53,9 @@ class _NetworkMonitorPageState extends State<NetworkMonitorPage> {
       case _SourceFilter.all:
         return records;
       case _SourceFilter.dio:
-        return records.where((r) => r.source == 'dio').toList();
+        return records.where((r) => NetworkMonitorService.isDartSource(r.source)).toList();
       case _SourceFilter.native:
-        return records.where((r) => r.source != 'dio').toList();
+        return records.where((r) => !NetworkMonitorService.isDartSource(r.source)).toList();
     }
   }
 
@@ -166,7 +166,7 @@ class _NetworkMonitorPageState extends State<NetworkMonitorPage> {
           const SizedBox(height: 8),
           Row(
             children: [
-              _miniStat('Flutter (Dio)',
+              _miniStat('Flutter (Dio/HTTP)',
                   '${fmt(_service.totalDioTxBytes)} / ${fmt(_service.totalDioRxBytes)}',
                   cardColor, textMain, textMuted),
               const SizedBox(width: 8),

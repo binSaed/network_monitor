@@ -50,20 +50,22 @@ class NetworkMonitorService {
     _records.clear();
   }
 
+  static bool isDartSource(String source) => source == 'dio' || source == 'http';
+
   int get totalDioTxBytes => _records
-      .where((r) => r.source == 'dio')
+      .where((r) => isDartSource(r.source))
       .fold(0, (sum, r) => sum + r.requestSizeBytes);
 
   int get totalDioRxBytes => _records
-      .where((r) => r.source == 'dio')
+      .where((r) => isDartSource(r.source))
       .fold(0, (sum, r) => sum + r.responseSizeBytes);
 
   int get totalNativeTxBytes => _records
-      .where((r) => r.source != 'dio')
+      .where((r) => !isDartSource(r.source))
       .fold(0, (sum, r) => sum + r.requestSizeBytes);
 
   int get totalNativeRxBytes => _records
-      .where((r) => r.source != 'dio')
+      .where((r) => !isDartSource(r.source))
       .fold(0, (sum, r) => sum + r.responseSizeBytes);
 
   int get untrackedTxBytes => _osStatsAvailable

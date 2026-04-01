@@ -1,7 +1,7 @@
 name: network_monitor
 description: A Flutter plugin for monitoring network usage across Dart (Dio) and native HTTP traffic with a built-in diagnostic UI.
 version: 0.0.1
-homepage:
+homepage: https://github.com/binSaed/network_monitor
 
 environment:
   sdk: ^3.11.4
@@ -12,6 +12,7 @@ dependencies:
     sdk: flutter
   plugin_platform_interface: ^2.1.8
   dio: ^5.9.2
+  http: ^1.6.0
 
 dev_dependencies:
   flutter_test:
