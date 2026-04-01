@@ -28,7 +28,7 @@ struct NativeNetworkRecord {
 
 class NetworkMonitorURLProtocol: URLProtocol, URLSessionDataDelegate {
     private static let handledKey = "NetworkMonitorHandled"
-    private static let maxRecords = 500
+    static var maxRecords = 500
     private static let queue = DispatchQueue(label: "com.network_monitor.records", attributes: .concurrent)
     private static var _records: [NativeNetworkRecord] = []
 
@@ -170,6 +170,12 @@ public class NetworkMonitorPlugin: NSObject, FlutterPlugin {
         case "getRecords":
             let records = NetworkMonitorURLProtocol.drainRecords()
             result(records.map { $0.toDict() })
+        case "setMaxRecords":
+            if let args = call.arguments as? [String: Any],
+               let max = args["maxRecords"] as? Int {
+                NetworkMonitorURLProtocol.maxRecords = max
+            }
+            result(nil)
         case "getTrafficStats":
             result(["txBytes": -1, "rxBytes": -1])
         default:

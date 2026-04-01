@@ -13,6 +13,12 @@ class NativeNetworkChannel {
     }
   }
 
+  static Future<void> setMaxRecords(int maxRecords) async {
+    try {
+      await _channel.invokeMethod('setMaxRecords', {'maxRecords': maxRecords});
+    } catch (_) {}
+  }
+
   static Future<({int txBytes, int rxBytes})> getTrafficStats() async {
     try {
       final result = await _channel.invokeMethod<Map>('getTrafficStats');

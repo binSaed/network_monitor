@@ -8,7 +8,7 @@ class NetworkMonitorService {
 
   static final NetworkMonitorService instance = NetworkMonitorService._();
 
-  static const int _maxRecords = 1000;
+  int _maxRecords = 1000;
 
   final List<NetworkRequestRecord> _records = [];
   int _baselineTxBytes = 0;
@@ -20,13 +20,17 @@ class NetworkMonitorService {
 
   bool get isInitialized => _initialized;
 
+  int get maxRecords => _maxRecords;
+
   List<NetworkRequestRecord> get records => List.unmodifiable(_records);
 
   bool get osStatsAvailable => _osStatsAvailable;
 
-  Future<void> init() async {
+  Future<void> init({int maxRecords = 1000, int maxNativeRecords = 500}) async {
     if (_initialized) return;
+    _maxRecords = maxRecords;
     _initialized = true;
+    await NativeNetworkChannel.setMaxRecords(maxNativeRecords);
     try {
       final stats = await NativeNetworkChannel.getTrafficStats();
       if (stats.txBytes >= 0 && stats.rxBytes >= 0) {

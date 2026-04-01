@@ -100,13 +100,13 @@ lib/
         └── network_domain_group.dart  # Domain grouping widget
 ```
 
-## Limits
+## Configuration
 
-| Setting | Value |
-|---------|-------|
-| Max Dart records | 1,000 |
-| Max native records | 500 |
-| Native poll interval | 2 seconds |
+| Setting | Default | How to change |
+|---------|---------|---------------|
+| Max Dart records | 1,000 | `NetworkMonitorService.instance.init(maxRecords: 2000)` |
+| Max native records | 500 | `NetworkMonitorService.instance.init(maxNativeRecords: 1000)` |
+| Native poll interval | 2 seconds | `NetworkMonitorPage(refreshInterval: Duration(seconds: 5))` |
 
 ## License
 

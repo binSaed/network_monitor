@@ -38,7 +38,7 @@ data class NativeNetworkRecord(
 
 class NetworkMonitorCache : ResponseCache() {
     companion object {
-        private const val MAX_RECORDS = 500
+        var maxRecords = 500
         val records = CopyOnWriteArrayList<NativeNetworkRecord>()
 
         fun drainRecords(): List<NativeNetworkRecord> {
@@ -49,7 +49,7 @@ class NetworkMonitorCache : ResponseCache() {
 
         fun addRecord(record: NativeNetworkRecord) {
             records.add(record)
-            while (records.size > MAX_RECORDS) {
+            while (records.size > maxRecords) {
                 records.removeAt(0)
             }
         }
@@ -108,6 +108,12 @@ class NetworkMonitorPlugin : FlutterPlugin, MethodCallHandler {
             "getRecords" -> {
                 val records = NetworkMonitorCache.drainRecords()
                 result.success(records.map { it.toMap() })
+            }
+
+            "setMaxRecords" -> {
+                val max = call.argument<Int>("maxRecords") ?: 500
+                NetworkMonitorCache.maxRecords = max
+                result.success(null)
             }
 
             "getTrafficStats" -> {

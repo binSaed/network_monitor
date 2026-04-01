@@ -14,7 +14,12 @@ enum _SourceFilter { all, dio, native }
 enum _GroupMode { none, domain, path }
 
 class NetworkMonitorPage extends StatefulWidget {
-  const NetworkMonitorPage({super.key});
+  final Duration refreshInterval;
+
+  const NetworkMonitorPage({
+    super.key,
+    this.refreshInterval = const Duration(seconds: 2),
+  });
 
   @override
   State<NetworkMonitorPage> createState() => _NetworkMonitorPageState();
@@ -35,7 +40,7 @@ class _NetworkMonitorPageState extends State<NetworkMonitorPage> {
     _service.fetchNativeRecords().then((_) {
       if (mounted) setState(() {});
     });
-    _refreshTimer = Timer.periodic(const Duration(seconds: 2), (_) async {
+    _refreshTimer = Timer.periodic(widget.refreshInterval, (_) async {
       await _service.fetchNativeRecords();
       if (mounted) setState(() {});
     });
