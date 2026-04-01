@@ -10,9 +10,9 @@ environment:
 dependencies:
   flutter:
     sdk: flutter
-  plugin_platform_interface: ^2.1.8
-  dio: ^5.9.2
-  http: ^1.6.0
+  plugin_platform_interface: ">=2.1.8 <3.0.0"
+  dio: ">=5.0.0 <6.0.0"
+  http: ">=1.0.0 <2.0.0"
 
 dev_dependencies:
   flutter_test:
